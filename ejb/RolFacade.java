@@ -5,9 +5,7 @@
  */
 package ejb;
 
-import entity.Doctor;
-import entity.Estado;
-import java.util.List;
+import entity.Rol;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,18 +15,18 @@ import javax.persistence.PersistenceContext;
  * @author Saker
  */
 @Stateless
-public class EstadoFacade extends AbstractFacade<Estado> implements EstadoFacadeLocal{
+public class RolFacade extends AbstractFacade<Rol> implements RolFacadeLocal{
     @PersistenceContext(unitName = "clinica")
     public EntityManager em;
 
-    public EstadoFacade() {
-        super(Estado.class);
+    public RolFacade() {
+        super(Rol.class);
     }
 
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
-  
+    
     
 }

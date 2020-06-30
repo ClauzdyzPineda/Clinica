@@ -26,7 +26,7 @@ public class DoctorFacade extends AbstractFacade<Doctor> implements DoctorFacade
 
     @Override
     protected EntityManager getEntityManager() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return em;
     }
     
 }
