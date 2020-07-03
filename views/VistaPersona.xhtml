@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Persona</title>
+    </h:head>
+    <h:body style="background-color: cadetblue ">
+         <p:growl id="mensaje"/>
+
+        <br/>
+        
+            <p:fieldset legend="Datos de persona" toggleable="true">
+        <h:form>
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="Nombre de paciente"/>
+                    <p:inputText value="#{controllerPersona.persona.nombres}"/>
+                    <p:outputLabel value="Apellidos de paciente"/>
+                    <p:inputText value="#{controllerPersona.persona.apellidos}"/>
+                    <p:outputLabel value="Fecha de nacimiento"/>
+                    <p:datePicker pattern="yyyy-MM-dd" value="#{controllerPersona.persona.fechaNac}"/>
+                    <p:outputLabel value="Telefono"/>
+                    <p:inputMask  value="#{controllerPersona.persona.telef}" mask="(503) 9999-9999"/>
+                    <p:outputLabel value="Direccion"/>
+                    <p:inputText  value="#{controllerPersona.persona.direccion}"/>
+                    <p:outputLabel value="User"/>
+                    <p:selectOneMenu value="#{controllerPersona.usuario.id_user}">
+                        <f:selectItems value="#{controllerUsuario.lista}" var="ps"
+                                       itemValue="#{ps.id_user}"
+                                       itemLabel="#{ps.usuario}"/>               
+                    </p:selectOneMenu> 
+                    <p:commandButton value="Guardar"  icon="pi pi-save" actionListener="#{controllerPersona.create()}" update=":data :mensaje"/>
+                </p:panelGrid>
+                 </h:form>
+            </p:fieldset>
+            <br/>
+
+       
+        <br></br>
+        <div class="ui-g">
+            <div class="ui-g-5"></div>    
+            <div class="ui-g-5"><h3>DATOS DE PERSONAS </h3></div>    
+            <div class="ui-g-5"></div>    
+        </div>
+        <p:dataTable value="#{controllerPersona.lista}" var="ls" id="data">
+            <p:column headerText="Id Persona">
+                <p:outputLabel value="#{ls.id_persona}"/>
+            </p:column> 
+            <p:column headerText="Nombre">
+                <p:outputLabel value="#{ls.nombres}"/>
+            </p:column>  
+            <p:column headerText="Apelidos">
+                <p:outputLabel value="#{ls.apellidos}"/>
+            </p:column> 
+            <p:column headerText="Fecha de nacimiento">
+                <p:outputLabel value="#{ls.fechaNac}"/>
+            </p:column> 
+            <p:column headerText="Telefono">
+                <p:outputLabel value="#{ls.telef}"/>
+            </p:column> 
+            <p:column headerText="Direccion">
+                <p:outputLabel value="#{ls.direccion}"/>
+            </p:column> 
+            <p:column headerText="user">
+                <p:outputLabel value="#{ls.id_user.usuario}"/>
+            </p:column> 
+            <p:column>
+                <p:commandButton value="Eliminar" icon="pi pi-trash" actionListener="#{controllerPersona.delete(ls)}" immediate="true" update=":data :mensaje" />
+            </p:column>
+            <p:column>
+                <p:commandButton value="Modificar"  icon="pi pi-pencil" actionListener="#{controllerPersona.find(ls)}"  update="wdi" oncomplete="PF('wv').show();" />
+            </p:column>
+
+        </p:dataTable>
+
+        <p:dialog header="Datos" widgetVar="wv" id="wdi">
+            <h:form id="panel">
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="ID"/>
+                    <p:inputText value="#{controllerPersona.persona.id_persona}" disabled="true"/>
+                    <p:outputLabel value="Nombres"/>
+                    <p:inputText value="#{controllerPersona.persona.nombres}"/>
+                    <p:outputLabel value="Apellidos"/>
+                    <p:inputText value="#{controllerPersona.persona.apellidos}"/>
+                    <p:outputLabel value="Fecha de nacimiento"/>
+                    <p:datePicker pattern="yyyy-MM-dd" value="#{controllerPersona.persona.fechaNac}"/>
+                    <p:outputLabel value="Telefono"/>
+                    <p:inputMask  value="#{controllerPersona.persona.telef}" mask="(503) 9999-9999"/>
+                    <p:outputLabel value="Direccion"/>
+                    <p:inputText  value="#{controllerPersona.persona.direccion}"/>
+                    <p:outputLabel value="User"/>
+                      <p:selectOneMenu value="#{controllerPersona.usuario.id_user}">
+                        <f:selectItems value="#{controllerUsuario.lista}" var="pss"
+                                       itemValue="#{pss.id_user}"
+                                       itemLabel="#{pss.usuario}"/>               
+                    </p:selectOneMenu> 
+                    <p:commandButton value="Actualizar" icon="pi pi-refresh" actionListener="#{controllerPersona.update()}" update=":data :mensaje" />
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+    </h:body>
+</html>
+

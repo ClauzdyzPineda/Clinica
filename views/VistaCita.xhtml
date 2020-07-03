@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+    <h:head>
+        <title>Cita</title>
+    </h:head>
+    <h:body style="background-color: cadetblue ">
+        <p:growl id="mensaje"/>
+
+        <br/>
+
+        <p:fieldset legend="Datos para realizar la cita" toggleable="true">
+            <h:form>
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="Paciente"/>
+                    <p:selectOneMenu value="#{controllerCita.persona.id_persona}">
+                        <f:selectItems value="#{controllerPersona.lista}" var="pc"
+                                       itemValue="#{pc.id_persona}"
+                                       itemLabel="#{pc.nombres}"/>               
+                    </p:selectOneMenu> 
+                    <p:outputLabel value="Doctor"/>
+                    <p:selectOneMenu value="#{controllerCita.doctor.id_doctor}">
+                        <f:selectItems value="#{controllerDoctor.lista}" var="dc"
+                                       itemValue="#{dc.id_doctor}"
+                                       itemLabel="#{dc.id_persona.nombres}"/>               
+                    </p:selectOneMenu> 
+                    <p:outputLabel value="Comentario"/>
+                    <p:inputText value="#{controllerCita.cita.comentario}"/>
+
+                    <p:commandButton value="Guardar"  icon="pi pi-save" actionListener="#{controllerCita.create()}" update=":data :mensaje"/>
+                </p:panelGrid>
+            </h:form>
+        </p:fieldset>
+        <br/>
+
+
+        <br></br>
+        <div class="ui-g">
+            <div class="ui-g-5"></div>    
+            <div class="ui-g-5"><h3>DATOS DE LAS CITAS </h3></div>    
+            <div class="ui-g-5"></div>    
+        </div>
+        <p:dataTable value="#{controllerCita.lista}" var="ls" id="data">
+            <p:column headerText="Numero de Cita">
+                <p:outputLabel value="#{ls.id_cita}"/>
+            </p:column> 
+            <p:column headerText="Nombre del paciente">
+                <p:outputLabel value="#{ls.id_persona.nombres}"/>
+            </p:column>  
+            <p:column headerText="Nombre de doctor">
+                <p:outputLabel value="#{ls.id_doctor.id_persona.nombres}"/>
+            </p:column> 
+            <p:column headerText="Comentario">
+                <p:outputLabel value="#{ls.comentario}"/>
+            </p:column> 
+
+            <p:column>
+                <p:commandButton value="Eliminar" icon="pi pi-trash" actionListener="#{controllerCita.delete(ls)}" immediate="true" update=":data :mensaje" />
+            </p:column>
+            <p:column>
+                <p:commandButton value="Modificar"  icon="pi pi-pencil" actionListener="#{controllerCita.leerId(ls)}"  update="wdi" oncomplete="PF('wv').show();" />
+            </p:column>
+
+        </p:dataTable>
+
+        <p:dialog header="Datos" widgetVar="wv" id="wdi">
+            <h:form id="panel">
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="Paciente"/>
+                    <p:selectOneMenu value="#{controllerCita.persona.id_persona}">
+                        <f:selectItems value="#{controllerPersona.lista}" var="pc"
+                                       itemValue="#{pc.id_persona}"
+                                       itemLabel="#{pc.nombres}"/>               
+                    </p:selectOneMenu> 
+                    <p:outputLabel value="Doctor"/>
+                    <p:selectOneMenu value="#{controllerCita.doctor.id_doctor}">
+                        <f:selectItems value="#{controllerDoctor.lista}" var="dc"
+                                       itemValue="#{dc.id_doctor}"
+                                       itemLabel="#{dc.id_persona.nombres}"/>               
+                    </p:selectOneMenu> 
+                    <p:outputLabel value="Comentario"/>
+                    <p:inputText value="#{controllerCita.cita.comentario}"/>
+                    <p:commandButton value="Actualizar" icon="pi pi-refresh" actionListener="#{controllerCita.update()}" update=":data :mensaje" />
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+    </h:body>
+</html>
+
+
+
+
+
