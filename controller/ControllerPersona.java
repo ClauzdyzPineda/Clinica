@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package controller;
 
 import ejb.PersonaFacadeLocal;
@@ -28,6 +24,7 @@ public class ControllerPersona implements Serializable {
     private Persona persona;
     private Usuario usuario;
     private List<Persona> lista;
+    private String mensaje;
 
     public Persona getPersona() {
         return persona;
@@ -56,8 +53,8 @@ public class ControllerPersona implements Serializable {
     
     @PostConstruct
     public void init(){
-       usuario = new Usuario();
-       persona = new Persona();
+       this.usuario  = new Usuario();
+       this.persona = new Persona();
        lista = personaEJB.findAll();
     }
     
@@ -65,9 +62,12 @@ public class ControllerPersona implements Serializable {
          FacesMessage mensa;
         try {
             persona.setId_user(usuario);
-            personaEJB.create(persona);            
+            personaEJB.create(persona); 
+            mensaje = "Datos guardados correctamente :D";
+            persona= new Persona();
+            usuario = new  Usuario();
+         
        mensa = new FacesMessage(FacesMessage.SEVERITY_INFO, "Completado", "Datos guardados correctamente");
-       init();
         } catch (Exception e) {            
             mensa = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al guardar los datos");
         }
@@ -77,9 +77,10 @@ public class ControllerPersona implements Serializable {
         FacesMessage mensa;
         try {
             persona.setId_user(usuario);
-            personaEJB.edit(persona);        
+            personaEJB.edit(persona);  
+            usuario = new  Usuario();
+            persona= new Persona();
        mensa = new FacesMessage(FacesMessage.SEVERITY_INFO, "Completado", "Datos modificados correctamente");
-       init();
         } catch (Exception e) {            
             mensa = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al modificar los datos");
         }
@@ -87,9 +88,9 @@ public class ControllerPersona implements Serializable {
     
       public  void  find(Persona per){
         try {
-            persona = personaEJB.find(per.getId_persona());
-            personaEJB.find(per.getId_persona());
-            usuario = persona.getId_user();            
+           usuario.setId_user(per.getId_user().getId_user());
+           persona.setId_user(usuario);
+           persona = per;
         } catch (Exception e) {
         }
     }
@@ -97,9 +98,11 @@ public class ControllerPersona implements Serializable {
      public  void delete(Persona per){
         FacesMessage mensa;
         try {
-            personaEJB.delete(per);           
+             
+             personaEJB.delete(per); 
+             usuario = new  Usuario();
+             persona= new Persona();
             mensa = new FacesMessage(FacesMessage.SEVERITY_INFO, "Completado", "Datos eliminados con exito");
-            init();
         } catch (Exception e) {            
             mensa = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al eliminar los datos");
         }
@@ -111,4 +114,5 @@ public class ControllerPersona implements Serializable {
         } catch (Exception e) {
         }
     }
+   
 }
