@@ -2,6 +2,9 @@ package controller;
 
 import ejb.CitaFacadeLocal;
 import entity.Cita;
+import entity.Doctor;
+import static entity.Doctor_.id_persona;
+import entity.Persona;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -18,6 +21,8 @@ public class ControllerCita implements Serializable {
     @EJB
     private CitaFacadeLocal citaEJB;
     private Cita cita;
+    private Doctor doctor;
+    private Persona persona;
     private List<Cita> lista;
     private String mensaje;
 
@@ -38,17 +43,40 @@ public class ControllerCita implements Serializable {
         this.lista = lista;
     }
 
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
+
+    public Persona getPersona() {
+        return persona;
+    }
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
+    }
+
     @PostConstruct
     public void init() {
         this.cita = new Cita();
         lista = citaEJB.findAll();
+        this.doctor = new Doctor();
+        this.persona = new Persona();
+        
     }
 
     public void create() {
         try {
+            cita.setId_persona(persona);
+            cita.setId_doctor(doctor);
             citaEJB.create(cita);
             mensaje = "Datos guardados correctamente";
             cita = new Cita();
+            doctor = new Doctor();
+            persona = new Persona();
         } catch (Exception e) {
             mensaje = "Error al guardar" + e.getMessage();
         }
@@ -75,10 +103,15 @@ public class ControllerCita implements Serializable {
 
     public void update() {
         try {
+            cita.setId_persona(persona);
+            cita.setId_doctor(doctor);
             citaEJB.edit(cita);
             mensaje = "Datos Actualizados";
+            cita = new Cita();
+            persona = new Persona();
+            doctor = new Doctor();
         } catch (Exception e) {
-        }
+        } 
 
         FacesMessage msj = new FacesMessage(mensaje);
         FacesContext.getCurrentInstance().addMessage(null, msj);
@@ -86,8 +119,11 @@ public class ControllerCita implements Serializable {
 
     public void leerId(Cita ct) {
         try {
-            cita = citaEJB.find(ct.getId_cita());
-            citaEJB.find(ct.getId_cita());
+            doctor.setId_doctor(ct.getId_doctor().getId_doctor());
+            persona.setId_persona(ct.getId_persona().getId_persona());
+            cita.setId_persona(persona);
+            cita.setId_doctor(doctor);
+            cita = ct;
         } catch (Exception e) {
         }
     }
