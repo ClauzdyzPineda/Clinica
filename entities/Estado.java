@@ -74,6 +74,12 @@ public class Estado implements Serializable{
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Estado{" + "id_estado=" + id_estado + '}';
+    }
+    
     
     
 }

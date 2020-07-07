@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package entity;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,12 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-/**
- *
- * @author Saker
- */
+
+
 @Entity
 @Table(name = "cita")
 public class Cita implements Serializable{
@@ -30,11 +20,11 @@ public class Cita implements Serializable{
     
      @JoinColumn(name = "id_persona", referencedColumnName = "id_persona")
     @ManyToOne
-    private Especialidad id_persona;
+    private Persona id_persona;
      
-     @JoinColumn(name = "doctor", referencedColumnName = "doctor")
+     @JoinColumn(name = "id_doctor", referencedColumnName = "id_doctor")
     @ManyToOne
-    private Especialidad doctor;
+    private Doctor id_doctor;
      
      @Column(name = "comentario")
      private String comentario;
@@ -50,21 +40,24 @@ public class Cita implements Serializable{
         this.id_cita = id_cita;
     }
 
-    public Especialidad getId_persona() {
+    public Persona getId_persona() {
         return id_persona;
     }
 
-    public void setId_persona(Especialidad id_persona) {
+    public void setId_persona(Persona id_persona) {
         this.id_persona = id_persona;
     }
 
-    public Especialidad getDoctor() {
-        return doctor;
+    public Doctor getId_doctor() {
+        return id_doctor;
     }
 
-    public void setDoctor(Especialidad doctor) {
-        this.doctor = doctor;
+    public void setId_doctor(Doctor id_doctor) {
+        this.id_doctor = id_doctor;
     }
+
+    
+    
 
     public String getComentario() {
         return comentario;
@@ -97,6 +90,11 @@ public class Cita implements Serializable{
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Cita{" + "id_cita=" + id_cita + '}';
     }
      
      

@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package entity;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,15 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 
-
-/**
- *
- * @author Saker
- */
 @Entity
 @Table(name = "usuario")
 public class Usuario implements Serializable{
@@ -37,9 +24,12 @@ public class Usuario implements Serializable{
     @Column(name = "pass")
     private String pass;
     
-    @JoinColumn(name = "id_rol", referencedColumnName = "id_rol")
     @ManyToOne
+    @JoinColumn(name = "id_rol")    
     private Rol id_rol;
+    
+    @Column(name = "estado")
+    private int estado;
 
     public Usuario() {
     }
@@ -75,14 +65,22 @@ public class Usuario implements Serializable{
     public void setId_rol(Rol id_rol) {
         this.id_rol = id_rol;
     }
+    
+      public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
+    }
 
     @Override
     public int hashCode() {
         int hash = 3;
         hash = 31 * hash + this.id_user;
         return hash;
-    }
-
+    } 
+    
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -99,6 +97,11 @@ public class Usuario implements Serializable{
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" + "id_user=" + id_user + '}';
     }
     
     

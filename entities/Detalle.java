@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package entity;
 
 import java.io.Serializable;
@@ -17,10 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-/**
- *
- * @author Saker
- */
+
 @Entity
 @Table(name = "detalle")
 public class Detalle implements Serializable{
@@ -35,9 +27,46 @@ public class Detalle implements Serializable{
     @JoinColumn(name = "id_estado", referencedColumnName = "id_estado")
     @ManyToOne
     private Estado id_estado;
+    
+    @Column(name = "fecha")
+    @Temporal(TemporalType.DATE)
+    private Date fecha;
+    
+    @Column(name = "hora")
+    @Temporal(TemporalType.TIME)
+    private Date hora;
+    
+    @Column(name = "comentario")
+    private String comentario;
 
     public Detalle() {
     }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public Date getHora() {
+        return hora;
+    }
+
+    public void setHora(Date hora) {
+        this.hora = hora;
+    }
+
+    public String getComentario() {
+        return comentario;
+    }
+
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
+    }
+    
+    
 
     public int getId_detalle() {
         return id_detalle;
@@ -87,6 +116,12 @@ public class Detalle implements Serializable{
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Detalle{" + "id_detalle=" + id_detalle + '}';
+    }
+    
     
     
     

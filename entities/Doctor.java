@@ -1,11 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package entity;
+
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,12 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-/**
- *
- * @author Saker
- */
+
+
 @Entity
 @Table(name = "doctor")
 public class Doctor implements Serializable{
@@ -27,13 +18,17 @@ public class Doctor implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_doctor;
     
-    @JoinColumn(name = "id_especialidad", referencedColumnName = "id_especialidad")
     @ManyToOne
+    @JoinColumn(name = "id_especialidad")    
     private Especialidad id_especialidad;
     
-    @JoinColumn(name = "id_persona", referencedColumnName = "id_persona")
     @ManyToOne
-    private Especialidad id_persona;
+    @JoinColumn(name = "id_persona")    
+    private Persona id_persona;
+    
+    @ManyToOne
+    @JoinColumn(name = "id_clinica")    
+    private Clinica id_clinica;
     
     @Column(name = "info")
     private String info;
@@ -57,13 +52,13 @@ public class Doctor implements Serializable{
         this.id_especialidad = id_especialidad;
     }
 
-    public Especialidad getId_persona() {
+    public Persona getId_persona() {
         return id_persona;
     }
 
-    public void setId_persona(Especialidad id_persona) {
+    public void setId_persona(Persona id_persona) {
         this.id_persona = id_persona;
-    }
+    }   
 
     public String getInfo() {
         return info;
@@ -72,6 +67,15 @@ public class Doctor implements Serializable{
     public void setInfo(String info) {
         this.info = info;
     }
+
+    public Clinica getId_clinica() {
+        return id_clinica;
+    }
+
+    public void setId_clinica(Clinica id_clinica) {
+        this.id_clinica = id_clinica;
+    }
+    
 
     @Override
     public int hashCode() {
@@ -97,6 +101,13 @@ public class Doctor implements Serializable{
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Doctor{" + "id_doctor=" + id_doctor + '}';
+    }
+    
+    
     
     
     

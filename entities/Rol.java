@@ -71,6 +71,12 @@ public class Rol implements Serializable{
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Rol{" + "id_rol=" + id_rol + '}';
+    }
+    
     
     
 }

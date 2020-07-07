@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package entity;
 
 
@@ -18,10 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-/**
- *
- * @author Saker
- */
+
+
 @Entity
 @Table(name = "persona")
 public class Persona implements Serializable{
@@ -45,8 +38,8 @@ public class Persona implements Serializable{
     @Column(name = "direccion")
     private String direccion;
     
-    @JoinColumn(name = "id_user",referencedColumnName = "id_user")
     @ManyToOne
+    @JoinColumn(name = "id_user")    
     private Usuario id_user;
 
     public Persona() {
@@ -132,6 +125,12 @@ public class Persona implements Serializable{
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Persona{" + "id_persona=" + id_persona + '}';
+    }
+    
     
     
     
