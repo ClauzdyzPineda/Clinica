@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>       
+    </h:head>
+    <h:body>
+        <p:growl id="msj" showDetail="true" escape="false"/>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <h:form>
+            <div class="container">
+                                <div class="ui-g">
+                                    <div class="ui-g-4"></div>  
+                                    <div class="ui-g-2">
+                                        <p:outputLabel value="Usuario"/>
+                                    </div>                                      
+                                    <div class="ui-g-2">                                         
+                                        <p:inputText  required="true" value="#{controllerUsuario.usuario.usuario}"/>                                         
+                                    </div>
+                                    <div class="ui-g-4"></div>                                       
+                                </div>
+                                <div class="ui-g">
+                                    <div class="ui-g-4"></div>  
+                                    <div class="ui-g-2">
+                                        <p:outputLabel value="Contraseña"/>
+                                    </div>                                      
+                                    <div class="ui-g-2">                                         
+                                        <p:password  required="true" value="#{controllerUsuario.usuario.pass}"/>                                         
+                                    </div>
+                                    <div class="ui-g-4"></div>                                       
+                                </div>
+                                
+                                <div class="ui-g">
+                                    <div class="ui-g-3"></div>  
+                                    <div class="ui-g-3"></div>
+                                    <div class="ui-g-3">                                      
+                                    <p:commandButton value="Iniciar Sesion" 
+                                                     action="#{controllerUsuario.procesar()}" update=":msj"/>
+                                    </div>
+                                    <div class="ui-g-3"></div>
+                                </div>
+                            </div>
+            </h:form>
+    </h:body>
+</html>
+
