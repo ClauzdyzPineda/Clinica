@@ -1,9 +1,13 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package controller;
 
 import ejb.CitaFacadeLocal;
 import entity.Cita;
 import entity.Doctor;
-import static entity.Doctor_.id_persona;
 import entity.Persona;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;

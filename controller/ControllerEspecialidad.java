@@ -14,6 +14,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -56,10 +57,11 @@ public class ControllerEspecialidad implements Serializable {
         try {
             especialidadEJB.create(especialidad);                
        mensa = new FacesMessage(FacesMessage.SEVERITY_INFO, "Completado", "Datos guardados correctamente");
-       init();
+        especialidad = new Especialidad();
         } catch (Exception e) {            
             mensa = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al guardar los datos");
         }
+        FacesContext.getCurrentInstance().addMessage(null,mensa);
     }
     
      public  void update(){
@@ -67,10 +69,11 @@ public class ControllerEspecialidad implements Serializable {
         try {
            especialidadEJB.edit(especialidad);        
        mensa = new FacesMessage(FacesMessage.SEVERITY_INFO, "Completado", "Datos modificados correctamente");
-       init();
+        especialidad = new Especialidad();    
         } catch (Exception e) {            
             mensa = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al modificar los datos");
         }
+        FacesContext.getCurrentInstance().addMessage(null,mensa);
     }
     
       public  void  find(Especialidad esp){
@@ -86,10 +89,11 @@ public class ControllerEspecialidad implements Serializable {
         try {
             especialidadEJB.delete(esp);                    
             mensa = new FacesMessage(FacesMessage.SEVERITY_INFO, "Completado", "Datos eliminados con exito");
-            init();
+            especialidad = new Especialidad();
         } catch (Exception e) {            
             mensa = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al eliminar los datos");
         }
+        FacesContext.getCurrentInstance().addMessage(null,mensa);
     }
      
    public void  findAll(){

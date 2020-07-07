@@ -1,7 +1,15 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package controller;
+
 
 import ejb.DoctorFacadeLocal;
 import entity.Doctor;
+import entity.Especialidad;
+import entity.Persona;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -18,6 +26,8 @@ public class ControllerDoctor implements Serializable {
     @EJB
     private DoctorFacadeLocal doctorEJB;
     private Doctor doctor;
+    private Persona persona;
+    private Especialidad especialidad;
     private List<Doctor> lista;
     private String mensaje;
 
@@ -34,6 +44,30 @@ public class ControllerDoctor implements Serializable {
         return lista;
     }
 
+    public DoctorFacadeLocal getDoctorEJB() {
+        return doctorEJB;
+    }
+
+    public void setDoctorEJB(DoctorFacadeLocal doctorEJB) {
+        this.doctorEJB = doctorEJB;
+    }
+
+    public Persona getPersona() {
+        return persona;
+    }
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
+    }
+
+    public Especialidad getEspecialidad() {
+        return especialidad;
+    }
+
+    public void setEspecialidad(Especialidad especialidad) {
+        this.especialidad = especialidad;
+    }
+    
     public void setLista(List<Doctor> lista) {
         this.lista = lista;
     }
@@ -41,19 +75,25 @@ public class ControllerDoctor implements Serializable {
     @PostConstruct
     public void init() {
         this.doctor = new Doctor();
+        persona = new Persona();
+        especialidad = new Especialidad();
         lista = doctorEJB.findAll();
     }
 
     public void create() {
+       FacesMessage mensa;
         try {
+            doctor.setId_especialidad(especialidad);
+            doctor.setId_persona(persona);
             doctorEJB.create(doctor);
-            mensaje = "Datos guardados";
+            mensa = new FacesMessage(FacesMessage.SEVERITY_INFO, "Completado", "Datos guardados correctamente");
             doctor = new Doctor();
+            especialidad= new Especialidad();
+            persona= new Persona();
         } catch (Exception e) {
-            mensaje = "Error al guardar" + e.getMessage();
-        }
-        FacesMessage msj = new FacesMessage(mensaje);
-        FacesContext.getCurrentInstance().addMessage(null, msj);
+            mensa = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al guardar los datos");
+        }        
+        FacesContext.getCurrentInstance().addMessage(null,mensa);
     }
     
      public  void  controlAll(){
@@ -64,32 +104,41 @@ public class ControllerDoctor implements Serializable {
     }
     
     public  void  delete(Doctor p){
+         FacesMessage mensa;
         try {
             doctorEJB.delete(p);
-            mensaje = "Datos Eliminados";
+            mensa = new FacesMessage(FacesMessage.SEVERITY_INFO, "Completado", "Datos eliminados.");
         } catch (Exception e) {
-        }
-        FacesMessage msj = new FacesMessage(mensaje);
-        FacesContext.getCurrentInstance().addMessage(null, msj);
+            mensa = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al eliminar");
+        }       
+        FacesContext.getCurrentInstance().addMessage(null, mensa);
     }
     
     public  void  update(){
+        FacesMessage mensa;
         try {
-            doctorEJB.edit(doctor);
-             mensaje = "Datos Actualizados";
+            doctor.setId_especialidad(especialidad);
+            doctor.setId_persona(persona);
+             doctorEJB.edit(doctor);
+             mensa = new FacesMessage(FacesMessage.SEVERITY_INFO, "Completado", "Datos modificados.");
+             doctor = new Doctor();
+            especialidad= new Especialidad();
+            persona= new Persona();         
         } catch (Exception e) {
+            mensa = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al modificar");
         }
-        
-        FacesMessage msj = new FacesMessage(mensaje);
-        FacesContext.getCurrentInstance().addMessage(null, msj);
+        FacesContext.getCurrentInstance().addMessage(null, mensa);
     }
     
     public  void leerId(Doctor dc){
         try {
-            doctor = doctorEJB.find(dc.getId_doctor());
-            doctorEJB.find(dc.getId_doctor());
+            persona.setId_persona(dc.getId_persona().getId_persona());
+            especialidad.setId_especialidad(dc.getId_especialidad().getId_especialidad());
+            doctor.setId_especialidad(especialidad);
+            doctor.setId_persona(persona);
+            doctor = dc;                       
         } catch (Exception e) {
         }
     }
-
+    
 }
