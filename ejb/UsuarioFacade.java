@@ -9,6 +9,7 @@ import entity.Usuario;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,5 +29,38 @@ public class UsuarioFacade extends AbstractFacade<Usuario> implements UsuarioFac
        return em;
     }
     
+    @Override
+    public int existente(Usuario us){
+        int existe =0;
+        try {            
+            String sql="SELECT us FROM Usuario us WHERE us.usuario=?1 AND us.pass=?2 AND us.estado=?3";
+            Query query = em.createQuery(sql);
+            query.setParameter(1, us.getUsuario());
+            query.setParameter(2, us.getPass());
+            query.setParameter(3, 1);
+            us = (Usuario) query.getSingleResult();
+            if(us.getId_user()>0){
+                existe = us.getId_user();
+            }
+            return existe;
+        } catch (Exception e) {
+            System.out.println("Error verificar usuario "+e.getMessage());
+           return 0;           
+        }        
+    }
+    
+      @Override
+    public Usuario consultar(int id){
+        Usuario us=null;
+        try {
+            String sql="SELECT us FROM Usuario us WHERE us.id_user=?1";
+            Query query = em.createQuery(sql);
+            query.setParameter(1, id);
+            us = (Usuario) query.getSingleResult();
+        } catch (Exception e) {
+             System.out.println("Error verificar usuario "+e.getMessage());
+        }
+        return us;
+    }
     
 }

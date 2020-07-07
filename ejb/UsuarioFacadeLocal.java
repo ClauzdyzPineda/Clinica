@@ -18,4 +18,6 @@ public interface UsuarioFacadeLocal {
     void delete(Usuario us);
     List<Usuario> findAll();
     Usuario find(Object id);
+    int existente(Usuario us);
+    Usuario consultar(int id);
 }
