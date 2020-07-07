@@ -5,14 +5,20 @@ create table rol(
 id_rol int not null primary key auto_increment,
 rol varchar(50)
 )engine InnoDB;
+Insert into rol(rol) values('Administrador'),('Doctor'),('Paciente');
+select * from rol;
 
 create table usuario(
 id_user int not null primary key auto_increment,
 usuario varchar(25),
 pass varchar(25),
 id_rol int,
+estado int,
 constraint fk_rol foreign key (id_rol) references rol(id_rol) on delete cascade on update cascade
 )engine InnoDB;
+INSERT INTO `clinica`.`usuario` (`usuario`, `pass`, `id_rol`, `estado`) VALUES ('marlon', '123', '1', '1');
+INSERT INTO `clinica`.`usuario` (`usuario`, `pass`, `id_rol`, `estado`) VALUES ('clau', '321', '1', '2');
+select * from usuario;
 
 create table persona(
 id_persona int not null primary key auto_increment,
@@ -25,25 +31,40 @@ id_user int,
 constraint fk_user foreign key (id_user) references usuario(id_user) on delete cascade on update cascade
 )engine InnoDB;
 
+Select * from persona;
+
 create table especialidad(
 id_especialidad int not null primary key auto_increment,
 especialidad varchar(100)
 )engine InnoDB;
 
+select * from especialidad;
+
+create table clinica(
+id_clinica int not null primary key auto_increment,
+clinica varchar(80),
+telefono varchar(16),
+sitio_web varchar(70),
+direccion varchar(100),
+estado int);
+
 create table doctor(
 id_doctor int not null primary key auto_increment,
 id_especialidad int,
 id_persona int,
-info varchar(250),
+id_clinica int,
+info varchar(250) null,
+constraint fk_clini foreign key (id_clinica) references clinica(id_clinica) on update cascade on delete cascade,
 constraint fk_espe foreign key (id_especialidad) references especialidad(id_especialidad) on update cascade on delete cascade,
 constraint fk_perso foreign key (id_persona) references persona(id_persona) on update cascade on delete cascade
 )engine InnoDB;
+
 
 create table cita(
 id_cita int not null primary key auto_increment,
 id_persona int,
 id_doctor int,
-comentario varchar(250),
+comentario varchar(500),
 constraint fk_persona foreign key (id_persona) references persona(id_persona) on delete cascade on update cascade,
 constraint fk_doctor foreign key (id_doctor) references doctor(id_doctor) on delete cascade on update cascade
 )engine InnoDB;
@@ -57,8 +78,19 @@ create table detalle(
 id_detalle int not null primary key auto_increment,
 id_cita int,
 id_estado int,
+fecha date,
+hora time,
+comentario varchar(500),
 constraint fk_cita foreign key (id_cita) references cita(id_cita) on update cascade on delete cascade,
 constraint fk_estado foreign key (id_estado) references estado(id_estado) on update cascade on delete cascade
 )engine InnoDB;
+
+create table auditoria(
+id_auditoria int not null primary key auto_increment,
+accion varchar(500),
+id_user int,
+fecha date,
+hora time,
+constraint fk_use foreign key (id_user) references usuario(id_user) on update cascade on delete cascade);
 
 
