@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/templeates/plantilla.xhtml">
+
+            <ui:define name="content">
+                <p:growl id="msj" showDetail="true" escape="false"/>
+                <p:layout fullPage="true" >
+
+                    <p:layoutUnit position="north" size="100" header="Administrador">
+                        <ui:include src="../componentes/nav.xhtml"/>
+                    </p:layoutUnit>
+
+                    <!--<p:layoutUnit position="south" size="100" header="Bottom" resizable="true" closable="true" collapsible="true">
+                        <h:outputText value="South unit content." />
+                    </p:layoutUnit>-->
+
+                    <p:layoutUnit position="west" size="190" styleClass="quitar">
+                        <h:form>                          
+                            <p:menu>
+                                <p:submenu label="Menu">
+                                    <p:menuitem value="Usuarios" outcome="viewUsuarios.xhtml"  icon="pi pi-save" />
+                                    <p:menuitem value="Roles" outcome="Administrador.xhtml"  icon="pi pi-save" />
+                                </p:submenu>
+                            </p:menu>                            
+                        </h:form>
+                    </p:layoutUnit>
+
+                    <p:layoutUnit position="east" size="200">
+
+                    </p:layoutUnit>
+
+                    <p:layoutUnit position="center">
+
+                        <h:form >
+                            <p:fieldset legend="Nuevo Usuario" style="border: none;">
+                                <div class="container">
+                                    <div class="ui-g">
+                                        <div class="ui-g-3">
+                                            <p:outputLabel value="Usuario"/>
+                                        </div>  
+                                        <div class="ui-g-3">
+                                            <p:inputText required="true" value="#{controllerUsuario.usuario.usuario}"/> 
+                                        </div>                                      
+                                        <div class="ui-g-3">                                         
+                                            <p:outputLabel value="Contraseña"/>                                      
+                                        </div>
+                                        <div class="ui-g-3">
+                                            <p:password id="feedback" required="true" value="#{controllerUsuario.usuario.pass}" feedback="true" />
+                                        </div>                                       
+                                    </div>
+
+                                    <div class="ui-g">
+                                        <div class="ui-g-3">
+                                            <p:outputLabel value="Rol"/>
+                                        </div>  
+                                        <div class="ui-g-3">
+                                            <p:selectOneMenu required="true" value="#{controllerUsuario.rol.id_rol}" >                        
+                                                <f:selectItems value="#{controllerRol.lista}" var="ls" 
+                                                               itemValue="#{ls.id_rol}"
+                                                               itemLabel="#{ls.rol}"/>
+                                            </p:selectOneMenu>
+                                        </div>
+                                        <div class="ui-g-3">                                                                                  
+                                        </div>
+                                        <div class="ui-g-3">
+                                            <p:commandButton value="Agregar" oncomplete="PF('mostrar').hide();" 
+                                                             actionListener="#{controllerUsuario.create()}" update=":data :msj"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </p:fieldset>
+                        </h:form>  
+
+                        <br></br>
+                        <br></br>
+                        <!--Tabla de usuarios-->    
+                        <h:form id="data">
+                            <p:fieldset legend="Usuarios">
+                                <p:dataTable var="us" value="#{controllerUsuario.lista}" >
+                                    
+                                    <p:column headerText="Id" styleClass="ids">
+                                        <h:outputText value="#{us.id_user}"/>
+                                    </p:column>
+                                    <p:column headerText="Usuario" styleClass="tabla">
+                                        <h:outputText value="#{us.usuario}"/>
+                                    </p:column>
+                                    <p:column headerText="password" styleClass="tabla">
+                                        <h:outputText value="#{us.pass}" styleClass="tabla"/>
+                                    </p:column>
+                                    <p:column headerText="Rol" >
+                                        <h:outputText value="#{us.id_rol.rol}" styleClass="tabla"/>
+                                    </p:column>
+                                    <p:column headerText="Modificar" styleClass="tabla">
+                                        <p:commandButton value="Modifcar" oncomplete="PF('edit').show();" 
+                                                         actionListener="#{controllerUsuario.find(us)}" update=":datos :msj"/>
+                                    </p:column>
+                                    <p:column headerText="Eliminar" styleClass="tabla">
+                                        <p:commandButton value="Eliminar" action="#{controllerUsuario.delete(us)}" update="data :msj">
+                                            <p:confirm header="Confirmar" message="¿Esta seguro que desea eliminar el registro?" icon="pi pi-exclamation-triangle" />
+                                        </p:commandButton>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:fieldset>
+                        </h:form>
+
+                    </p:layoutUnit>
+                    <!--Modal de modificacion -->
+                    <p:dialog widgetVar="edit" header="Usuarios" modal="true" showEffect="clip" resizable="false" id="datos">
+            <h:form>
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="Id"/>
+                    <p:inputText value="#{controllerUsuario.usuario.id_user}" disabled="true"/>
+                    <p:outputLabel value="Usuario"/>
+                    <p:inputText value="#{controllerUsuario.usuario.usuario}"/>
+                    <p:outputLabel value="Contraseña"/>
+                    <p:password id="feedback" value="#{controllerUsuario.usuario.pass}" feedback="true" />
+                    <p:outputLabel value="Rol"/>
+                    <p:selectOneMenu  value="#{controllerUsuario.rol.id_rol}">                        
+                        <f:selectItems value="#{controllerRol.lista}" var="lss" 
+                                       itemValue="#{lss.id_rol}"
+                                       itemLabel="#{lss.rol}"/>
+                    </p:selectOneMenu>
+                    <p:commandButton value="Modificar" actionListener="#{controllerUsuario.update()}" update="data :msj"  oncomplete="PF('edit').hide();">
+                       <p:confirm header="Confirmar" message="¿Esta seguro que desea modificar?" icon="pi pi-exclamation-triangle" />
+                    </p:commandButton>
+                    <p:commandButton value="Cancelar" oncomplete="PF('edit').hide();" />  
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+                    <!--Botones de confirmacion -->
+                    <p:confirmDialog global="true" showEffect="clip" hideEffect="clip">
+                        <p:commandButton value="Aceptar" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                        <p:commandButton value="Cancelar" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+                    </p:confirmDialog> 
+
+                </p:layout>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

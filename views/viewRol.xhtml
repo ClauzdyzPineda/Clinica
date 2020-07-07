@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <p:growl id="msj"/>
+
+        <p:dialog widgetVar="mostrar" header="Roles" modal="true" showEffect="clip" resizable="false">
+            <h:form>
+                <p:panelGrid columns="2">
+                    <p:inputText value="#{controllerRol.rol.id_rol}" rendered="false"/>
+                    <p:outputLabel value="Rol"/>
+                    <p:inputText value="#{controllerRol.rol.rol}"/>
+                    <p:commandButton value="Agregar" oncomplete="PF('mostrar').hide();" 
+                                     actionListener="#{controllerRol.create()}" update=":data :msj"/>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+
+        <h:form id="data">
+            <p:fieldset legend="Roles">
+                <p:dataTable var="rol" value="#{controllerRol.lista}" >
+                    <p:column headerText="Id" >
+                        <h:outputText value="#{rol.id_rol}"/>
+                    </p:column>
+                    <p:column headerText="Rol" >
+                        <h:outputText value="#{rol.rol}"/>
+                    </p:column>
+                    <p:column headerText="Modificar" >
+                        <p:commandButton value="Modifcar" oncomplete="PF('edit').show();" 
+                                         actionListener="#{controllerRol.find(rol)}" update=":datos :msj"/>
+                    </p:column>
+                    <p:column headerText="Eliminar" >
+                        <p:commandButton value="Eliminar" action="#{controllerRol.delete(rol)}" update="data :msj">
+                            <p:confirm header="Confirmar" message="¿Esta seguro que desea eliminar?" icon="pi pi-exclamation-triangle" />
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+        </h:form>
+
+        <p:dialog widgetVar="edit" header="Roles" modal="true" showEffect="clip" resizable="false" id="datos">
+            <h:form>
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="Id"/>
+                    <p:inputText value="#{controllerRol.rol.id_rol}"/>
+                    <p:outputLabel value="Rol"/>
+                    <p:inputText value="#{controllerRol.rol.rol}"/>
+                     <p:commandButton value="Modificar" actionListener="#{controllerRol.update()}" update="data :msj"  oncomplete="PF('edit').hide();">
+                            <p:confirm header="Confirmar" message="¿Esta seguro que desea modificar?" icon="pi pi-exclamation-triangle" />
+                     </p:commandButton>                                      
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="clip">
+            <p:commandButton value="Aceptar" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+            <p:commandButton value="Cancelar" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+        </p:confirmDialog> 
+
+        <p:commandButton value="Agregar" oncomplete="PF('mostrar').show();"/>
+
+    </h:body>
+</html>
+

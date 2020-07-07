@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <p:growl id="msj"/>
+
+        <p:dialog widgetVar="mostrar" header="Usuarios" modal="true" showEffect="clip" resizable="false">
+            <h:form>
+                <p:panelGrid columns="2">
+                    <p:inputText value="#{controllerUsuario.usuario.id_user}" rendered="false"/>
+                    <p:outputLabel value="Usuario"/>
+                    <p:inputText value="#{controllerUsuario.usuario.usuario}"/>
+                    <p:outputLabel value="Contraseña"/>
+                    <p:password id="feedback" value="#{controllerUsuario.usuario.pass}" feedback="true" />
+                    <p:outputLabel value="Rol"/>
+                    <p:selectOneMenu  value="#{controllerUsuario.rol.id_rol}" style="width:125px">                        
+                        <f:selectItems value="#{controllerRol.lista}" var="ls" 
+                                       itemValue="#{ls.id_rol}"
+                                       itemLabel="#{ls.rol}"/>
+                    </p:selectOneMenu>
+                    <p:commandButton value="Agregar" oncomplete="PF('mostrar').hide();" 
+                                     actionListener="#{controllerUsuario.create()}" update=":data :msj"/>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+
+        <h:form id="data">
+            <p:fieldset legend="Usuarios">
+                <p:dataTable var="us" value="#{controllerUsuario.lista}" >
+                    <p:column headerText="Id" >
+                        <h:outputText value="#{us.id_user}"/>
+                    </p:column>
+                    <p:column headerText="Usuario" >
+                        <h:outputText value="#{us.usuario}"/>
+                    </p:column>
+                    <p:column headerText="password" >
+                        <h:outputText value="#{us.pass}"/>
+                    </p:column>
+                    <p:column headerText="Rol" >
+                        <h:outputText value="#{us.id_rol.rol}"/>
+                    </p:column>
+                    <p:column headerText="Modificar" >
+                        <p:commandButton value="Modifcar" oncomplete="PF('edit').show();" 
+                                         actionListener="#{controllerUsuario.find(us)}" update=":datos :msj"/>
+                    </p:column>
+                    <p:column headerText="Eliminar" >
+                        <p:commandButton value="Eliminar" action="#{controllerUsuario.delete(us)}" update="data :msj">
+                            <p:confirm header="Confirmar" message="Desea seguir con el proceso?" icon="pi pi-exclamation-triangle" />
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+        </h:form>
+
+        <p:dialog widgetVar="edit" header="Usuarios" modal="true" showEffect="clip" resizable="false" id="datos">
+            <h:form>
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="Id"/>
+                    <p:inputText value="#{controllerUsuario.usuario.id_user}" disabled="true"/>
+                    <p:outputLabel value="Usuario"/>
+                    <p:inputText value="#{controllerUsuario.usuario.usuario}"/>
+                    <p:outputLabel value="Contraseña"/>
+                    <p:password id="feedback" value="#{controllerUsuario.usuario.pass}" feedback="true" />
+                    <p:outputLabel value="Rol"/>
+                    <p:selectOneMenu  value="#{controllerUsuario.rol.id_rol}" style="width:125px">                        
+                        <f:selectItems value="#{controllerRol.lista}" var="lss" 
+                                       itemValue="#{lss.id_rol}"
+                                       itemLabel="#{lss.rol}"/>
+                    </p:selectOneMenu>
+                    <p:commandButton value="Modificar" actionListener="#{controllerUsuario.update()}" update="data :msj"  oncomplete="PF('edit').hide();">
+                        <p:confirm header="Confirmar" message="Desea seguir con el proceso?" icon="pi pi-exclamation-triangle" />
+                    </p:commandButton>
+
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="clip">
+            <p:commandButton value="Aceptar" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+            <p:commandButton value="Cancelar" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+        </p:confirmDialog> 
+
+        <p:commandButton value="Agregar" oncomplete="PF('mostrar').show();"/>
+
+    </h:body>
+</html>
+

@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <p:growl id="msj"/>
+
+        <p:dialog widgetVar="mostrar" header="Doctor" modal="true" showEffect="clip" resizable="false">
+            <h:form>
+                <p:panelGrid columns="2">
+                    <p:inputText value="#{controllerDoctor.doctor.id_doctor}" rendered="false"/>
+                    <p:outputLabel value="Nombre"/>
+                    <p:selectOneMenu  value="#{controllerDoctor.persona.id_persona}" style="width:125px">                        
+                        <f:selectItems value="#{controllerPersona.lista}" var="ls" 
+                                       itemValue="#{ls.id_persona}"
+                                       itemLabel="#{ls.nombres} #{ls.apellidos}"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Especialidad"/>
+                    <p:selectOneMenu  value="#{controllerDoctor.especialidad.id_especialidad}" style="width:125px">                        
+                        <f:selectItems value="#{controllerEspecialidad.lista}" var="es" 
+                                       itemValue="#{es.id_especialidad}"
+                                       itemLabel="#{es.especialidad}"/>
+                    </p:selectOneMenu>
+                    <p:commandButton value="Agregar" oncomplete="PF('mostrar').hide();" 
+                                     actionListener="#{controllerDoctor.create()}" update=":data :msj"/>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+
+        <h:form id="data">
+            <p:fieldset legend="Doctores">
+                <p:dataTable var="us" value="#{controllerDoctor.lista}" >
+                    <p:column headerText="Id" >
+                        <h:outputText value="#{us.id_doctor}"/>
+                    </p:column>
+                    <p:column headerText="Nombre" >
+                        <h:outputText value="#{us.id_persona.nombres}"/>
+                    </p:column>
+                    <p:column headerText="Apellidos" >
+                        <h:outputText value="#{us.id_persona.apellidos}"/>
+                    </p:column>
+                     <p:column headerText="Especialidad" >
+                         <h:outputText value="#{us.id_especialidad.especialidad}"/>
+                    </p:column>  
+                    <p:column headerText="Modificar" >
+                        <p:commandButton value="Modifcar" oncomplete="PF('edit').show();" 
+                                         actionListener="#{controllerDoctor.leerId(us)}" update=":datos :msj"/>
+                    </p:column>
+                    <p:column headerText="Eliminar" >
+                        <p:commandButton value="Eliminar" action="#{controllerDoctor.delete(us)}" update="data :msj">
+                            <p:confirm header="Confirmar" message="Desea seguir con el proceso?" icon="pi pi-exclamation-triangle" />
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+        </h:form>
+
+        <p:dialog widgetVar="edit" header="Usuarios" modal="true" showEffect="clip" resizable="false" id="datos">
+            <h:form>
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="Id"/>
+                    <p:inputText value="#{controllerDoctor.doctor.id_doctor}" disabled="true"/>
+                  <p:outputLabel value="Nombre"/>
+                    <p:selectOneMenu  value="#{controllerDoctor.persona.id_persona}" style="width:125px">                        
+                        <f:selectItems value="#{controllerPersona.lista}" var="ls" 
+                                       itemValue="#{ls.id_persona}"
+                                       itemLabel="#{ls.nombres} #{ls.apellidos}"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Especialidad"/>
+                    <p:selectOneMenu  value="#{controllerDoctor.especialidad.id_especialidad}" style="width:125px">                        
+                        <f:selectItems value="#{controllerEspecialidad.lista}" var="es" 
+                                       itemValue="#{es.id_especialidad}"
+                                       itemLabel="#{es.especialidad}"/>
+                    </p:selectOneMenu>
+                    <p:commandButton value="Modificar" actionListener="#{controllerDoctor.update()}" update="data :msj"  oncomplete="PF('edit').hide();">
+                        <p:confirm header="Confirmar" message="Desea seguir con el proceso?" icon="pi pi-exclamation-triangle" />
+                    </p:commandButton>
+
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="clip">
+            <p:commandButton value="Aceptar" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+            <p:commandButton value="Cancelar" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+        </p:confirmDialog> 
+
+        <p:commandButton value="Agregar" oncomplete="PF('mostrar').show();"/>
+
+    </h:body>
+</html>
+

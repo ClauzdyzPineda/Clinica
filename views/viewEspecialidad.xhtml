@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <p:growl id="msj"/>
+
+        <p:dialog widgetVar="mostrar" header="Agregar Especiealidad" modal="true" showEffect="clip" resizable="false">
+            <h:form>
+                <p:panelGrid columns="2">
+                    <p:inputText value="#{controllerEspecialidad.especialidad.id_especialidad}" rendered="false"/>
+                    <p:outputLabel value="Especialidad"/>
+                    <p:inputText value="#{controllerEspecialidad.especialidad.especialidad}"/>
+                    <p:commandButton value="Agregar" oncomplete="PF('mostrar').hide();" 
+                                     actionListener="#{controllerEspecialidad.create()}" update=":data :msj"/>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+
+        <h:form id="data">
+            <p:fieldset legend="Especialidades">
+                <p:dataTable var="esp" value="#{controllerEspecialidad.lista}" >
+                    <p:column headerText="Id" >
+                        <h:outputText value="#{esp.id_especialidad}"/>
+                    </p:column>
+                    <p:column headerText="Especialidad" >
+                        <h:outputText value="#{esp.especialidad}"/>
+                    </p:column>
+                    <p:column headerText="Modificar" >
+                        <p:commandButton value="Modifcar" oncomplete="PF('edit').show();" 
+                                         actionListener="#{controllerEspecialidad.find(esp)}" update=":datos :msj"/>
+                    </p:column>
+                    <p:column headerText="Eliminar" >
+                        <p:commandButton value="Eliminar" action="#{controllerEspecialidad.delete(esp)}" update="data :msj">
+                            <p:confirm header="Confirmar" message="Desea seguir con el proceso?" icon="pi pi-exclamation-triangle" />
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+        </h:form>
+
+        <p:dialog widgetVar="edit" header="Especialidad" modal="true" showEffect="clip" resizable="false" id="datos">
+            <h:form>
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="Id"/>
+                     <p:inputText value="#{controllerEspecialidad.especialidad.id_especialidad}"/>
+                    <p:outputLabel value="Especialidad"/>
+                    <p:inputText value="#{controllerEspecialidad.especialidad.especialidad}"/>
+                    <p:commandButton value="Modificar" actionListener="#{controllerEspecialidad.update()}" update="data :msj"  oncomplete="PF('edit').hide();">
+                            <p:confirm header="Confirmar" message="Desea seguir con el proceso?" icon="pi pi-exclamation-triangle" />
+                     </p:commandButton>
+                    
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="clip">
+            <p:commandButton value="Aceptar" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+            <p:commandButton value="Cancelar" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+        </p:confirmDialog> 
+
+        <p:commandButton value="Agregar" oncomplete="PF('mostrar').show();"/>
+
+    </h:body>
+</html>
+
