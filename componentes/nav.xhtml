@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:component>
+
+        <style  type="text/css">
+            *{
+                font-family: monospace;
+                font-weight: bold;
+                font-size: 100%;
+            }
+
+            .ids{
+                width: 15%; 
+            }
+
+            .celdaBoton{
+                width: 20%; 
+            }
+
+            .tabla{
+                text-align: center;   
+            }
+            .quitar .ui-layout-unit{
+                border: none;
+                background-color: red;
+            }            
+
+        </style>
+        <h:outputStylesheet name="formularios.css" />
+        <h:form>
+            <p:menubar>
+                <p:menuitem value="Usuarios" outcome="viewUsuario.xhtml" icon="pi pi-users"/>                                                         
+                <p:menuitem value="Doctores" outcome="viewUsuario.xhtml" icon="pi pi-sitemap"/>                                                         
+                <p:menuitem value="Clientes" outcome="viewUsuario.xhtml" icon="pi pi-heart"/>                                                         
+                <p:menuitem value="Auditoria" outcome="viewUsuario.xhtml" icon="pi pi-search"/>                                                         
+                <p:menuitem value="Reportes" outcome="viewUsuario.xhtml" icon="pi pi-chart-line"/>                                                         
+                <p:menuitem value="Cerrar Sesion" style="margin-left: 425%" outcome="viewUsuario.xhtml" icon="pi pi-power-off"/>
+            </p:menubar>
+        </h:form>
+    </ui:component>
+
+</html>
+
